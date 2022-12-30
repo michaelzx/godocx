@@ -9,6 +9,6 @@ type Document struct {
 	Body    *Body
 }
 type Body struct {
-	XMLName    xml.Name `xml:"w:body"`
-	Paragraphs []*Paragraph
+	XMLName  xml.Name `xml:"w:body"`
+	Children []any
 }

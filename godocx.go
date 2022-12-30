@@ -16,7 +16,7 @@ func New() *Docx {
 				XMLName: xml.Name{
 					Space: "w",
 				},
-				Paragraphs: make([]*Paragraph, 0),
+				Children: make([]any, 0),
 			},
 		},
 		Relationships: Relationships{

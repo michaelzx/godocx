@@ -43,8 +43,15 @@ func (f *Docx) AddParagraph() *Paragraph {
 		file: f,
 	}
 
-	f.Document.Body.Paragraphs = append(f.Document.Body.Paragraphs, p)
+	f.Document.Body.Children = append(f.Document.Body.Children, p)
 	return p
+}
+
+// AddSection add new section
+func (f *Docx) AddSection() *Section {
+	s := &Section{}
+	f.Document.Body.Children = append(f.Document.Body.Children, s)
+	return s
 }
 
 func (f *Docx) pack(zipWriter *zip.Writer) (err error) {
