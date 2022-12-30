@@ -50,12 +50,12 @@ func (f *Docx) AddParagraph() *Paragraph {
 func (f *Docx) pack(zipWriter *zip.Writer) (err error) {
 	// ooxml文档地址：http://officeopenxml.com/anatomyofOOXML.php
 	files := map[string]string{}
-	files["[Content_Types].xml"] = tpl.CONTENT
-	files["_rels/.rels"] = tpl.REL
-	files["docProps/app.xml"] = tpl.DOCPROPS_APP
-	files["docProps/core.xml"] = tpl.DOCPROPS_CORE
-	files["word/theme/theme1.xml"] = tpl.WORD_THEME_THEME
-	files["word/styles.xml"] = tpl.WORD_STYLE
+	files["[Content_Types].xml"] = tpl.ContentTypes()
+	files["_rels/.rels"] = tpl.Rels()
+	files["docProps/app.xml"] = tpl.DocPropsApp()
+	files["docProps/core.xml"] = tpl.DocPropsCore()
+	files["word/theme/theme1.xml"] = tpl.WordThemeTheme1()
+	files["word/styles.xml"] = tpl.WordStyles()
 	files["word/_rels/document.xml.rels"], err = marshal(f.Relationships)
 	if err != nil {
 		return err
