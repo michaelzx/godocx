@@ -1,4 +1,4 @@
-package oox
+package godocx
 
 import (
 	"encoding/xml"

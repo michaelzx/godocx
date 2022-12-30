@@ -1,4 +1,4 @@
-package oox
+package godocx
 
 const (
 	REL_HYPERLINK = `http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink`
