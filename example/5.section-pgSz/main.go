@@ -7,11 +7,9 @@ import (
 
 func main() {
 	docx := godocx.New()
-	// add text
-	s := docx.AddSection()
-	// A4-Landscape
-	s.Width(16838).Height(11906).Orient(godocx.OrientLandscape)
-	f, err := os.Create("./tmp/5.zip")
+	docx.AddSection().Width(16838).Height(11906).Orient(godocx.OrientLandscape)
+
+	f, err := os.Create("./tmp/5.docx")
 	if err != nil {
 		panic(err)
 	}
