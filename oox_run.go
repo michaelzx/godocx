@@ -46,3 +46,20 @@ type Size struct {
 	XMLName xml.Name `xml:"http://schemas.openxmlformats.org/wordprocessingml/2006/main sz"`
 	Val     int      `xml:"w:val,attr"`
 }
+
+// Color allows to set run color
+func (r *Run) Color(color string) *Run {
+	r.RunProperties.Color = &Color{
+		Val: color,
+	}
+
+	return r
+}
+
+// Size allows to set run size
+func (r *Run) Size(size int) *Run {
+	r.RunProperties.Size = &Size{
+		Val: size * 2,
+	}
+	return r
+}
