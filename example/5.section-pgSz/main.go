@@ -9,11 +9,18 @@ import (
 func main() {
 	docx := godocx.New()
 	body := docx.Body()
-	p0 := body.AddParagraph()
-	p0.AddText("test1")
+
 	p1 := body.AddParagraph()
-	p1.AddSection().Width(section.A4Height).Height(section.A4Width).Orient(section.OrientLandscape)
-	p1.AddText("test2")
+	p1.AddSection().AddPgSz().SetA4Size()
+	p1.AddText("page1")
+
+	p2 := body.AddParagraph()
+	p2.AddSection().AddPgSz().SetWidth(section.A4Height).SetHeight(section.A4Width).SetOrient(section.OrientLandscape)
+	p2.AddText("page2")
+
+	p3 := body.AddParagraph()
+	p3.AddSection().AddPgSz().SetA4Size()
+	p3.AddText("page3")
 
 	f, err := os.Create("./tmp/5.docx")
 	if err != nil {

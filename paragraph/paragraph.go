@@ -11,8 +11,8 @@ import (
 type Paragraph struct {
 	XMLName       xml.Name                     `xml:"w:p"`
 	Relationships *relationships.Relationships `xml:"-"`
+	Properties    Properties                   `xml:"w:pPr,omitempty"`
 	Children      []any
-	properties    Properties
 }
 type Properties struct {
 	XMLName  xml.Name `xml:"w:pPr"`
@@ -23,7 +23,7 @@ func New(r *relationships.Relationships) *Paragraph {
 	p := &Paragraph{
 		Relationships: r,
 		Children:      make([]interface{}, 0),
-		properties: Properties{
+		Properties: Properties{
 			Children: make([]any, 0, 0),
 		},
 	}
@@ -36,8 +36,7 @@ func (p *Paragraph) AddText(text string) *Run {
 		Text: text,
 	}
 	run := &Run{
-		Text:          t,
-		RunProperties: &RunProperties{},
+		Text: t,
 	}
 	p.Children = append(p.Children, run)
 
@@ -47,6 +46,6 @@ func (p *Paragraph) AddText(text string) *Run {
 // AddSection add section to paragraph
 func (p *Paragraph) AddSection() *section.Section {
 	s := &section.Section{}
-	p.properties.Children = append(p.properties.Children, s)
+	p.Properties.Children = append(p.Properties.Children, s)
 	return s
 }

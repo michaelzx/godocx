@@ -12,6 +12,7 @@ type Run struct {
 	XMLName       xml.Name       `xml:"w:r"`
 	RunProperties *RunProperties `xml:"w:rPr,omitempty"`
 	Text          *Text          `xml:"w:t,omitempty"`
+	LineBreak     *LineBreak     `xml:"w:br,omitempty"`
 }
 
 // RunProperties encapsulates visual properties of a run
@@ -22,33 +23,15 @@ type RunProperties struct {
 	Fonts   *Fonts   `xml:"w:rFonts,omitempty"`
 }
 
-// Fonts contains the font family
-// http://officeopenxml.com/WPtextFonts.php
-// http://www.datypic.com/sc/ooxml/a-w_hint-1.html
-type Fonts struct {
-	XMLName  xml.Name `xml:"w:rFonts"`
-	Hint     string   `xml:"w:hint,attr,omitempty"` // default=High ANSI Font,eastAsia=East Asian Font,cs=Complex Script Font
-	Ascii    string   `xml:"w:ascii,attr,omitempty"`
-	Cs       string   `xml:"w:cs,attr,omitempty"`
-	EastAsia string   `xml:"w:eastAsia,attr,omitempty"`
-	HAnsi    string   `xml:"w:hAnsi,attr,omitempty"`
-}
-
-// Color contains the sound of music. :D
-// I'm kidding. It contains the color
-type Color struct {
-	XMLName xml.Name `xml:"w:color"`
-	Val     string   `xml:"w:val,attr"`
-}
-
-// Size contains the font size
-type Size struct {
-	XMLName xml.Name `xml:"w:sz"`
-	Val     int      `xml:"w:val,attr"`
+func (r *Run) checkPropsInit() {
+	if r.RunProperties == nil {
+		r.RunProperties = &RunProperties{}
+	}
 }
 
 // Color allows to set run color
 func (r *Run) Color(color string) *Run {
+	r.checkPropsInit()
 	r.RunProperties.Color = &Color{
 		Val: color,
 	}
@@ -58,6 +41,7 @@ func (r *Run) Color(color string) *Run {
 
 // Size allows to set run size
 func (r *Run) Size(size int) *Run {
+	r.checkPropsInit()
 	r.RunProperties.Size = &Size{
 		Val: size * 2,
 	}
@@ -65,9 +49,10 @@ func (r *Run) Size(size int) *Run {
 }
 
 // Font allows to set run font
-func (r *Run) Font(fontName string, fontHint string) *Run {
+func (r *Run) fonts(fontName string, fontHint string) *Run {
+	r.checkPropsInit()
 	r.RunProperties.Fonts = &Fonts{
-		Hint:     "default",
+		Hint:     fontHint,
 		Ascii:    fontName,
 		Cs:       fontName,
 		EastAsia: fontName,
@@ -76,32 +61,21 @@ func (r *Run) Font(fontName string, fontHint string) *Run {
 	return r
 }
 func (r *Run) FontDefault(fontName string) *Run {
-	r.RunProperties.Fonts = &Fonts{
-		Hint:     "default",
-		Ascii:    fontName,
-		Cs:       fontName,
-		EastAsia: fontName,
-		HAnsi:    fontName,
-	}
+	r.fonts(fontName, "default")
 	return r
 }
 func (r *Run) FontEastAsia(fontName string) *Run {
-	r.RunProperties.Fonts = &Fonts{
-		Hint:     "eastAsia",
-		Ascii:    fontName,
-		Cs:       fontName,
-		EastAsia: fontName,
-		HAnsi:    fontName,
-	}
+	r.fonts(fontName, "eastAsia")
 	return r
 }
 func (r *Run) FontCS(fontName string) *Run {
-	r.RunProperties.Fonts = &Fonts{
-		Hint:     "cs",
-		Ascii:    fontName,
-		Cs:       fontName,
-		EastAsia: fontName,
-		HAnsi:    fontName,
+	r.fonts(fontName, "cs")
+	return r
+}
+
+func (r *Run) SetPageBreak() *Run {
+	r.LineBreak = &LineBreak{
+		Type: "page",
 	}
 	return r
 }
