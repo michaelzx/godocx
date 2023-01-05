@@ -9,6 +9,8 @@ import (
 func main() {
 	docx := godocx.New()
 	body := docx.Body()
+	bodyS := body.Section()
+	bodyS.AddPgSz().SetA4Size()
 
 	p1 := body.AddParagraph()
 	p1.AddSection().AddPgSz().SetA4Size()
@@ -19,7 +21,6 @@ func main() {
 	p2.AddText("page2")
 
 	p3 := body.AddParagraph()
-	p3.AddSection().AddPgSz().SetA4Size()
 	p3.AddText("page3")
 
 	f, err := os.Create("./tmp/5.docx")

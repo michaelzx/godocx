@@ -20,8 +20,8 @@ func (b *Body) AddParagraph() *paragraph.Paragraph {
 	return p
 }
 
-// AddSection add new section
-func (b *Body) AddSection() *section.Section {
+// Section set body section config
+func (b *Body) Section() *section.Section {
 	s := &section.Section{}
 	b.Children = append(b.Children, s)
 	return s
