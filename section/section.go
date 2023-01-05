@@ -6,12 +6,12 @@ type Orient string
 
 type Section struct {
 	XMLName xml.Name `xml:"w:sectPr"`
-	PgSz    *PgSz    `xml:"w:pgSz,omitempty"`
+	WPgSz   *PgSz    `xml:"w:pgSz,omitempty"`
 }
 
-func (s *Section) AddPgSz() *PgSz {
-	if s.PgSz == nil {
-		s.PgSz = &PgSz{}
+func (s *Section) PgSz() *PgSz {
+	if s.WPgSz == nil {
+		s.WPgSz = &PgSz{}
 	}
-	return s.PgSz
+	return s.WPgSz
 }

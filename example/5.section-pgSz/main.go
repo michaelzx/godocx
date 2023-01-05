@@ -10,14 +10,14 @@ func main() {
 	docx := godocx.New()
 	body := docx.Body()
 	bodyS := body.Section()
-	bodyS.AddPgSz().SetA4Size()
+	bodyS.PgSz().SetA4Size()
 
 	p1 := body.AddParagraph()
-	p1.AddSection().AddPgSz().SetA4Size()
+	p1.AddSection().PgSz().SetA4Size()
 	p1.AddText("page1")
 
 	p2 := body.AddParagraph()
-	p2.AddSection().AddPgSz().SetWidth(section.A4Height).SetHeight(section.A4Width).SetOrient(section.OrientLandscape)
+	p2.AddSection().PgSz().SetWidth(section.A4Height).SetHeight(section.A4Width).SetOrient(section.OrientLandscape)
 	p2.AddText("page2")
 
 	p3 := body.AddParagraph()
