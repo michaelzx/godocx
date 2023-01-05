@@ -65,7 +65,17 @@ func (r *Run) Size(size int) *Run {
 }
 
 // Font allows to set run font
-func (r *Run) Font(fontName string) *Run {
+func (r *Run) Font(fontName string, fontHint string) *Run {
+	r.RunProperties.Fonts = &Fonts{
+		Hint:     "default",
+		Ascii:    fontName,
+		Cs:       fontName,
+		EastAsia: fontName,
+		HAnsi:    fontName,
+	}
+	return r
+}
+func (r *Run) FontDefault(fontName string) *Run {
 	r.RunProperties.Fonts = &Fonts{
 		Hint:     "default",
 		Ascii:    fontName,
