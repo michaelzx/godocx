@@ -1,4 +1,4 @@
-package godocx
+package paragraph
 
 import (
 	"encoding/xml"

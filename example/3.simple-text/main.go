@@ -8,8 +8,9 @@ import (
 
 func main() {
 	docx := godocx.New()
+	body := docx.Body()
 	// add text
-	para1 := docx.AddParagraph()
+	para1 := body.AddParagraph()
 	para1.AddText(time.Now().Format("2006-01-02") + "的天气真好")
 
 	f, err := os.Create("./tmp/3.docx")

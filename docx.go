@@ -3,15 +3,46 @@ package godocx
 import (
 	"archive/zip"
 	"encoding/xml"
+	"github.com/michaelzx/godocx/document"
+	"github.com/michaelzx/godocx/relationships"
 	"github.com/michaelzx/godocx/tpl"
 	"io"
 	"os"
 )
 
 type Docx struct {
-	Document           Document
-	Relationships      Relationships
-	NextRelationshipId int
+	Document      document.Document
+	Relationships *relationships.Relationships
+}
+
+const (
+	XmlNsW = `http://schemas.openxmlformats.org/wordprocessingml/2006/main`
+	XmlNsR = `http://schemas.openxmlformats.org/officeDocument/2006/relationships`
+)
+
+func New() *Docx {
+	docx := &Docx{
+		Document: document.Document{
+			XMLName: xml.Name{
+				Space: "w",
+			},
+			XmlNsW: XmlNsW,
+			XmlNsR: XmlNsR,
+			Body: &document.Body{
+				XMLName: xml.Name{
+					Space: "w",
+				},
+				Children: make([]any, 0),
+			},
+		},
+		Relationships: relationships.Default(),
+	}
+	return docx
+}
+
+// Body get body
+func (f *Docx) Body() (err *document.Body) {
+	return f.Document.Body
 }
 
 // Save save file to path
@@ -34,24 +65,6 @@ func (f *Docx) Write(writer io.Writer) (err error) {
 	defer zipWriter.Close()
 
 	return f.pack(zipWriter)
-}
-
-// AddParagraph add new paragraph
-func (f *Docx) AddParagraph() *Paragraph {
-	p := &Paragraph{
-		Data: make([]interface{}, 0),
-		file: f,
-	}
-
-	f.Document.Body.Children = append(f.Document.Body.Children, p)
-	return p
-}
-
-// AddSection add new section
-func (f *Docx) AddSection() *Section {
-	s := &Section{}
-	f.Document.Body.Children = append(f.Document.Body.Children, s)
-	return s
 }
 
 func (f *Docx) pack(zipWriter *zip.Writer) (err error) {
@@ -92,7 +105,6 @@ func marshal(data interface{}) (out string, err error) {
 	if err != nil {
 		return
 	}
-
 	out = xml.Header + string(body)
 	return
 }
